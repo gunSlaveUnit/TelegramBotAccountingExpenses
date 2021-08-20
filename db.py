@@ -15,20 +15,17 @@ class DBClient:
         self._port = port
 
         # We connect to the default database (postgres), then check the database for existence
-        self._connection, self._cursor = self._create_new_conn_cur()
+        self._connection = psycopg2.connect(user=self._user,
+                                            password=self._password,
+                                            host=self._host,
+                                            port=self._port)
+        self._cursor = self._connection.cursor()
         self._connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
         if not self._check_db_exists():
             self._create_basic_db_structure()
-
-    def _create_new_conn_cur(self, dbname='postgres'):
-        connection = psycopg2.connect(dbname=dbname,
-                                      user=self._user,
-                                      password=self._password,
-                                      host=self._host,
-                                      port=self._port)
-        cursor = connection.cursor()
-        return connection, cursor
+        else:
+            print("[ The database was founded ]")
 
     def _check_db_exists(self):
         query_check_db_exists = f"SELECT 1 FROM pg_database WHERE datname='{self._database}'"
@@ -41,8 +38,16 @@ class DBClient:
         self._cursor.close()
         self._connection.close()
 
+        print("[ New database created ]")
+
         # We are connecting to the new empty created database
-        self._create_new_conn_cur(dbname=self._database)
+        self._connection = psycopg2.connect(dbname=self._database,
+                                            user=self._user,
+                                            password=self._password,
+                                            host=self._host,
+                                            port=self._port)
+        self._cursor = self._connection.cursor()
+        self._connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
         with open(config['DB_BASE_CONFIG_FILENAME'], 'r') as sql_file:
             query_create_base_struct = sql_file.read()
