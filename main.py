@@ -1,15 +1,16 @@
 import asyncio
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 
 from envparser import EnvParser
-from handlers import start_handler
+from handlers import start_handler, categories_list_handler
 
 config = EnvParser.parse()
 
 
 def register_handlers(dispatcher):
     dispatcher.register_message_handler(start_handler, commands={"start", "restart"})
+    dispatcher.register_message_handler(categories_list_handler, commands={"categories"})
 
 
 async def main():

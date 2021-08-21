@@ -26,9 +26,18 @@ class DBClient:
             self._create_basic_db_structure()
         else:
             print("[ The database was founded ]")
+            self._cursor.close()
+            self._connection.close()
+            self._connection = psycopg2.connect(dbname=self._database,
+                                                user=self._user,
+                                                password=self._password,
+                                                host=self._host,
+                                                port=self._port)
+            self._cursor = self._connection.cursor()
+            self._connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
     def _check_db_exists(self):
-        query_check_db_exists = f"SELECT 1 FROM pg_database WHERE datname='{self._database}'"
+        query_check_db_exists = f"SELECT 1 FROM pg_database WHERE datname='{self._database}';"
         self._cursor.execute(query_check_db_exists)
         return self._cursor.fetchone()
 
@@ -53,7 +62,7 @@ class DBClient:
             query_create_base_struct = sql_file.read()
             self._cursor.execute(query_create_base_struct)
 
-
-client = DBClient(database=config['DB_NAME'],
-                  user=config['DB_USER'], password=config['DB_PASS'],
-                  host=config['DB_HOST'], port=config['DB_PORT'])
+    def fetchall(self, columns, table):
+        self._cursor.execute(f"SELECT {columns} FROM {table}")
+        rows = self._cursor.fetchall()
+        return rows
