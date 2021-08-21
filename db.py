@@ -54,7 +54,6 @@ class DBClient:
             self._cursor.execute(query_create_base_struct)
 
 
-if __name__ == '__main__':
-    client = DBClient(database=config['DB_NAME'],
-                      user=config['DB_USER'], password=config['DB_PASS'],
-                      host=config['DB_HOST'], port=config['DB_PORT'])
+client = DBClient(database=config['DB_NAME'],
+                  user=config['DB_USER'], password=config['DB_PASS'],
+                  host=config['DB_HOST'], port=config['DB_PORT'])
