@@ -9,7 +9,8 @@ class Categories:
         categories = db.client.fetchall('*', table='categories')
         return self.arrange_categories_for_conclusion(categories)
 
-    def arrange_categories_for_conclusion(self, cats):
+    @staticmethod
+    def arrange_categories_for_conclusion(cats):
         categories_for_printing = []
         for category in cats:
             categories_for_printing.append(" ".join([str(category[1])+"\: (", str(category[3])+" )"]))

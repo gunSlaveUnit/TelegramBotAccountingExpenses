@@ -67,6 +67,12 @@ class DBClient:
         rows = self._cursor.fetchall()
         return rows
 
+    def delete(self, table, row):
+        self._cursor.execute(f'SELECT * FROM {table} where id={row};')
+        deleted_message = self._cursor.fetchall()
+        self._cursor.execute(f"DELETE FROM {table} where id={row};")
+        return deleted_message
+
 
 client = DBClient(database=config['DB_NAME'],
                   user=config['DB_USER'], password=config['DB_PASS'],

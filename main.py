@@ -3,7 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from envparser import EnvParser
-from handlers import start_handler, categories_list_handler
+from handlers import start_handler, categories_list_handler, delete_expense
 
 config = EnvParser.parse()
 
@@ -11,6 +11,7 @@ config = EnvParser.parse()
 def register_handlers(dispatcher):
     dispatcher.register_message_handler(start_handler, commands={"start", "restart"})
     dispatcher.register_message_handler(categories_list_handler, commands={"categories"})
+    dispatcher.register_message_handler(delete_expense, lambda message: message.text.startswith('/del'))
 
 
 async def main():
