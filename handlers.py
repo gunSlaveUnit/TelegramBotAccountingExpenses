@@ -2,15 +2,9 @@
 
 from aiogram import types
 
-from db import DBClient
-from envparser import EnvParser
+from categories import Categories
+
 from phrases import START_PHRASE
-
-
-config = EnvParser.parse()
-client = DBClient(database=config['DB_NAME'],
-                  user=config['DB_USER'], password=config['DB_PASS'],
-                  host=config['DB_HOST'], port=config['DB_PORT'])
 
 
 def auth_needed(func):
@@ -30,5 +24,5 @@ async def start_handler(message: types.Message):
 
 @auth_needed
 async def categories_list_handler(message: types.Message):
-    categories = client.fetchall('*', table='category')
-    await message.reply(categories, reply=False)
+    categories = Categories().categories
+    await message.reply("\n".join(categories), reply=False)

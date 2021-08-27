@@ -63,6 +63,6 @@ class DBClient:
             self._cursor.execute(query_create_base_struct)
 
     def fetchall(self, columns, table):
-        self._cursor.execute(f"SELECT {columns} FROM {table}")
+        self._cursor.execute(f"SELECT {columns} FROM {table};")
         rows = self._cursor.fetchall()
         return rows

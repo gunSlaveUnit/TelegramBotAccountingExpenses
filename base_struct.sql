@@ -1,34 +1,25 @@
-create table category(
+create table categories(
     id serial,
     name varchar(50) primary key,
     is_income boolean,
     aliases text
 );
 
-create table income(
+create table expenses(
     id serial,
     amount integer,
     created date,
     category_name varchar(50),
     clarification text,
-    FOREIGN KEY(category_name) REFERENCES category(name)
+    FOREIGN KEY(category_name) REFERENCES categories(name)
 );
 
-create table expense(
-    id serial,
-    amount integer,
-    created date,
-    category_name varchar(50),
-    clarification text,
-    FOREIGN KEY(category_name) REFERENCES category(name)
-);
-
-insert into category (name, is_income, aliases)
+insert into categories (name, is_income, aliases)
 values
-    ('products', false, 'еда, продукты'),
-    ('transport',  false, 'метро, автобус, metro, транспорт, taxi'),
-    ('phone', false, 'связь, телефон'),
-    ('books', false, 'литература, литра, лит-ра, книги'),
-    ('internet', false, 'инет, inet, интернет'),
-    ('subscriptions', false, 'подписка, подписки'),
-    ('other', false, 'прочее');
+    ('products', false, 'food'),
+    ('transport',  false, 'autobus, metro, taxi'),
+    ('phone', false, 'telephone, smartphone'),
+    ('books', false, 'literature'),
+    ('internet', false, 'inet'),
+    ('subscriptions', false, 'services'),
+    ('other', false, 'something');
