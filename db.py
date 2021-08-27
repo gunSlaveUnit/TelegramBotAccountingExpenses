@@ -66,3 +66,8 @@ class DBClient:
         self._cursor.execute(f"SELECT {columns} FROM {table};")
         rows = self._cursor.fetchall()
         return rows
+
+
+client = DBClient(database=config['DB_NAME'],
+                  user=config['DB_USER'], password=config['DB_PASS'],
+                  host=config['DB_HOST'], port=config['DB_PORT'])

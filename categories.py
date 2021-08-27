@@ -1,10 +1,4 @@
-from db import DBClient
-from envparser import EnvParser
-
-config = EnvParser.parse()
-client = DBClient(database=config['DB_NAME'],
-                  user=config['DB_USER'], password=config['DB_PASS'],
-                  host=config['DB_HOST'], port=config['DB_PORT'])
+import db
 
 
 class Categories:
@@ -12,7 +6,7 @@ class Categories:
         self._categories = self._load_categories()
 
     def _load_categories(self):
-        categories = client.fetchall('*', table='categories')
+        categories = db.client.fetchall('*', table='categories')
         return self.arrange_categories_for_conclusion(categories)
 
     def arrange_categories_for_conclusion(self, cats):
